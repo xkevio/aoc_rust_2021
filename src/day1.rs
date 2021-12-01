@@ -1,5 +1,19 @@
 use std::{fs, u32::MAX};
 
+// pub fn part1_better() -> usize {
+//     let sonar_measurements =
+//         fs::read_to_string("src/inputs/day1.txt").expect("Unable to open file");
+    
+//     let mut vec = Vec::<i32>::new();
+//     let measurements: Vec<&str> = sonar_measurements.lines().collect();
+
+//     for i in 1..measurements.len() {
+//         vec.push(measurements[i].parse::<i32>().unwrap() - measurements[i - 1].parse::<i32>().unwrap());
+//     }
+
+//     vec.iter().filter(|x| **x > 0).count()
+// }
+
 pub fn part1() -> u32 {
     let mut increases: u32 = 0;
     let mut previous_measurement: u32 = MAX;
