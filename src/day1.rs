@@ -16,19 +16,18 @@ use std::{fs, u32::MAX};
 
 pub fn part1() -> u32 {
     let mut increases: u32 = 0;
-    let mut previous_measurement: u32 = MAX;
 
     let sonar_measurements =
         fs::read_to_string("src/inputs/day1.txt").expect("Unable to open file");
 
-    for measurement in sonar_measurements.lines().collect::<Vec<_>>() {
-        let current_measurement: u32 = measurement.parse().unwrap();
-        if current_measurement > previous_measurement {
+    let measurements: Vec<u32> = sonar_measurements.lines().map(|n| n.parse::<u32>().unwrap()).collect();
+
+    for i in 1..measurements.len() {
+        if measurements[i] > measurements[i-1] {
             increases += 1;
         }
-        previous_measurement = current_measurement;
     }
-
+    
     increases
 }
 
