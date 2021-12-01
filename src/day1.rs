@@ -1,4 +1,4 @@
-use std::{fs, u32::MAX};
+use std::fs;
 
 // pub fn part1_better() -> usize {
 //     let sonar_measurements =
