@@ -27,7 +27,7 @@ pub fn part1() -> u32 {
             increases += 1;
         }
     }
-    
+
     increases
 }
 
@@ -36,23 +36,13 @@ pub fn part2() -> u32 {
     let sonar_measurements =
         fs::read_to_string("src/inputs/day1.txt").expect("Unable to open file");
 
-    let lines = sonar_measurements.lines().collect::<Vec<_>>();
-    let windows = lines.windows(3);
+    let measurements: Vec<u32> = sonar_measurements.lines().map(|n| n.parse::<u32>().unwrap()).collect();
+    let windows = measurements.windows(3).collect::<Vec<_>>();
 
-    let mut previous_measurement: u32 = MAX;
-
-    for w in windows {
-        let num_w: Vec<u32> = w
-            .iter()
-            .map(|window| window.parse().expect("Parsing error"))
-            .collect();
-        let current_measurement: u32 = num_w.iter().sum();
-
-        if current_measurement > previous_measurement {
+    for i in 1..windows.len() {
+        if windows[i].iter().sum::<u32>() > windows[i - 1].iter().sum() {
             increases += 1;
         }
-
-        previous_measurement = current_measurement;
     }
 
     increases
