@@ -22,7 +22,7 @@ pub fn part1() -> u32 {
 
     let measurements: Vec<u32> = sonar_measurements
         .lines()
-        .map(|n| n.parse::<u32>().unwrap())
+        .map(|n| n.parse().unwrap())
         .collect();
 
     for i in 1..measurements.len() {
@@ -41,7 +41,7 @@ pub fn part2() -> u32 {
 
     let measurements: Vec<u32> = sonar_measurements
         .lines()
-        .map(|n| n.parse::<u32>().unwrap())
+        .map(|n| n.parse().unwrap())
         .collect();
     let windows = measurements.windows(3).collect::<Vec<_>>();
 
