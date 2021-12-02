@@ -1,9 +1,10 @@
 const INPUT: &str = include_str!("inputs/day2.txt");
 
 pub fn part1_iterator() -> usize {
-    let horizontal: usize = INPUT.lines().filter(|l| l.starts_with("f")).map(|l| l.strip_prefix("forward ").unwrap().parse::<usize>().unwrap()).sum();
-    let mut depth: usize = INPUT.lines().filter(|l| l.starts_with("d")).map(|l| l.strip_prefix("down ").unwrap().parse::<usize>().unwrap()).sum();
-    depth -= INPUT.lines().filter(|l| l.starts_with("u")).map(|l| l.strip_prefix("up ").unwrap().parse::<usize>().unwrap()).sum::<usize>();
+    let horizontal: usize = INPUT.lines().filter(|l| l.starts_with("f")).map(|l| l.split_once(" ").unwrap().1.parse::<usize>().unwrap()).sum();
+
+    let mut depth: usize = INPUT.lines().filter(|l| l.starts_with("d")).map(|l| l.split_once(" ").unwrap().1.parse::<usize>().unwrap()).sum();
+    depth -= INPUT.lines().filter(|l| l.starts_with("u")).map(|l| l.split_once(" ").unwrap().1.parse::<usize>().unwrap()).sum::<usize>();
 
     horizontal * depth
 }
