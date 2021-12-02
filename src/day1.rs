@@ -1,4 +1,4 @@
-use std::fs;
+const INPUT: &str = include_str!("inputs/day1.txt");
 
 // pub fn part1_better() -> usize {
 //     let sonar_measurements =
@@ -17,13 +17,7 @@ use std::fs;
 pub fn part1() -> u32 {
     let mut increases: u32 = 0;
 
-    let sonar_measurements =
-        fs::read_to_string("src/inputs/day1.txt").expect("Unable to open file");
-
-    let measurements: Vec<u32> = sonar_measurements
-        .lines()
-        .map(|n| n.parse().unwrap())
-        .collect();
+    let measurements: Vec<u32> = INPUT.lines().map(|n| n.parse().unwrap()).collect();
 
     for i in 1..measurements.len() {
         if measurements[i] > measurements[i - 1] {
@@ -36,13 +30,8 @@ pub fn part1() -> u32 {
 
 pub fn part2() -> u32 {
     let mut increases: u32 = 0;
-    let sonar_measurements =
-        fs::read_to_string("src/inputs/day1.txt").expect("Unable to open file");
 
-    let measurements: Vec<u32> = sonar_measurements
-        .lines()
-        .map(|n| n.parse().unwrap())
-        .collect();
+    let measurements: Vec<u32> = INPUT.lines().map(|n| n.parse().unwrap()).collect();
     let windows = measurements.windows(3).collect::<Vec<_>>();
 
     for i in 1..windows.len() {
