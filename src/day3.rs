@@ -8,9 +8,7 @@ pub fn part1() -> u32 {
             INPUT.lines().partition(|l| l[i..l.len()].starts_with('1'));
 
         if ones.len() > zeros.len() {
-            gamma_rate += 2u32.pow(11 - i as u32) * 1;
-        } else {
-            gamma_rate += 0;
+            gamma_rate += 2u32.pow(11 - i as u32);
         }
     }
 
