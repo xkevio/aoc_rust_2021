@@ -1,14 +1,11 @@
 const INPUT: &str = include_str!("inputs/day1.txt");
 
 // pub fn part1_better() -> usize {
-//     let sonar_measurements =
-//         fs::read_to_string("src/inputs/day1.txt").expect("Unable to open file");
-
-//     let mut vec = Vec::<i32>::new();
-//     let measurements: Vec<&str> = sonar_measurements.lines().collect();
+//     let mut vec = Vec::<usize>::new();
+//     let measurements: Vec<usize> = INPUT.lines().map(|l| l.parse().unwrap()).collect();
 
 //     for i in 1..measurements.len() {
-//         vec.push(measurements[i].parse::<i32>().unwrap() - measurements[i - 1].parse::<i32>().unwrap());
+//         vec.push(measurements[i] - measurements[i - 1]);
 //     }
 
 //     vec.iter().filter(|x| **x > 0).count()

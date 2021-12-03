@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 const INPUT: &str = include_str!("inputs/day2.txt");
 
 #[allow(dead_code)]
@@ -11,24 +13,24 @@ pub fn part1_iterator() -> usize {
     horizontal * depth
 }
 
-pub fn part1() -> i32 {
+pub fn part1() -> Result<i32, <i32 as FromStr>::Err> {
     let mut horizontal = 0;
     let mut depth = 0;
 
     for l in INPUT.lines() {
         let (op, v) = l.split_once(" ").unwrap();
         match op {
-            "forward" => horizontal += v.parse::<i32>().unwrap(),
-            "down" => depth += v.parse::<i32>().unwrap(),
-            "up" => depth -= v.parse::<i32>().unwrap(),
+            "forward" => horizontal += v.parse::<i32>()?,
+            "down" => depth += v.parse::<i32>()?,
+            "up" => depth -= v.parse::<i32>()?,
             _ => println!("error"),
         }
     }
 
-    horizontal * depth
+    Ok(horizontal * depth)
 }
 
-pub fn part2() -> i32 {
+pub fn part2() -> Result<i32, <i32 as FromStr>::Err> {
     let mut horizontal = 0;
     let mut depth = 0;
     let mut aim = 0;
@@ -37,14 +39,14 @@ pub fn part2() -> i32 {
         let (op, v) = l.split_once(" ").unwrap();
         match op {
             "forward" => {
-                horizontal += v.parse::<i32>().unwrap();
-                depth += aim * v.parse::<i32>().unwrap();
+                horizontal += v.parse::<i32>()?;
+                depth += aim * v.parse::<i32>()?;
             }
-            "down" => aim += v.parse::<i32>().unwrap(),
-            "up" => aim -= v.parse::<i32>().unwrap(),
+            "down" => aim += v.parse::<i32>()?,
+            "up" => aim -= v.parse::<i32>()?,
             _ => println!("error"),
         }
     }
 
-    horizontal * depth
+    Ok(horizontal * depth)
 }
