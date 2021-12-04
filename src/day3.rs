@@ -26,6 +26,7 @@ pub fn part2() -> u32 {
     o2_gen_rating * co2_scrubber_rating
 }
 
+#[rustfmt::skip]
 fn reduce_to_rating(numbers: &[&str], start_bit: bool) -> u32 {
     let mut i = 0;
     let mut numbers_copy = numbers.to_owned();
