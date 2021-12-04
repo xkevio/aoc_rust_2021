@@ -1,76 +1,30 @@
 const INPUT: &str = include_str!("inputs/day4.txt");
 
-struct Board {
-    grid: Vec<Vec<i32>>,
-    done: bool,
+type Board = Vec<Vec<i32>>;
+
+fn board_contains(board: &Board, value: i32) -> Option<(usize, usize)> {
+    for x in 0..board.len() {
+        for y in 0..board[0].len() {
+            if board[x][y] == value {
+                return Some((x, y));
+            }
+        }
+    }
+    None
 }
 
-impl Board {
-    fn new() -> Self {
-        Board { grid: vec![], done: false }
-    }
+fn bingo(board: &Board) -> bool {
+    let row = board.iter().any(|r| r.iter().all(|n| *n == -1));
+    let col = (0..5).any(|i| board.iter().all(|c| c[i] == -1));
 
-    fn add_row(&mut self, row: Vec<i32>) {
-        self.grid.push(row);
-    }
-
-    fn contains(&self, num: i32) -> bool {
-        for x in &self.grid {
-            for y in x {
-                if *y == num {
-                    return true;
-                }
-            }
-        }
-
-        false
-    }
-
-    fn mark(&mut self, num: i32) {
-        for x in &mut self.grid {
-            if let Some(i) = x.iter().position(|n| *n == num) {
-                x[i] = -1
-            }
-        }
-    }
-
-    fn sum_positive(&self) -> i32 {
-        let mut sum = 0;
-
-        for x in &self.grid {
-            sum += x.iter().filter(|n| **n >= 0).sum::<i32>();
-        }
-
-        sum
-    }
-
-    fn check(&self) -> bool {
-        let mut row = false;
-        let mut col = false;
-
-        for x in &self.grid {
-            row = row || x.into_iter().all(|v| *v == -1);
-        }
-
-        for i in 0..self.grid[0].len() {
-            let mut column_b = true;
-            for j in 0..self.grid[0].len() {
-                column_b = column_b && (self.grid[j][i] == -1);
-            }
-
-            col = col || column_b;
-        }
-
-        row || col
-    }
+    row || col
 }
 
 fn get_boards() -> Vec<Board> {
     let mut boards: Vec<Board> = Vec::new();
 
     for board_s in INPUT.split("\n\n").skip(1) {
-        let mut board = Board::new();
-        let t = board_s
+        let board = board_s
             .lines()
             .map(|l| {
                 l.split_whitespace()
@@ -79,41 +33,14 @@ fn get_boards() -> Vec<Board> {
             })
             .collect::<Vec<Vec<_>>>();
 
-        for r in t {
-            board.add_row(r);
-        }
-
         boards.push(board);
     }
 
     boards
 }
 
-pub fn part1() -> i32 {
-    let instructions: String = INPUT.split("\n\n").take(1).collect();
-    let mut boards = get_boards();
-
-    let result = 0;
-
-    for ins in instructions.split(",") {
-        let num: i32 = ins.parse().unwrap();
-
-        for board in &mut boards {
-            if board.contains(num) {
-                board.mark(num);
-                if board.check() {
-                    println!("{} * {}", &num, board.sum_positive());
-                    return num * board.sum_positive();
-                }
-            }
-        }
-    }
-
-    result
-}
-
-pub fn part2() -> i32 {
-    let instructions: String = INPUT.split("\n\n").take(1).collect();
+fn emulate_bingo(part1: bool) -> i32 {
+    let instructions: String = INPUT.lines().take(1).collect();
     let mut boards = get_boards();
 
     let mut result = 0;
@@ -122,21 +49,33 @@ pub fn part2() -> i32 {
         let num: i32 = ins.parse().unwrap();
 
         for board in &mut boards {
-
-            if board.done {
-                continue;
+            if let Some((x, y)) = board_contains(board, num) {
+                board[x][y] = -1;
             }
+            if bingo(board) && !board.is_empty() {
+                let sum: i32 = board
+                    .iter()
+                    .map(|r| r.iter().filter(|i| **i >= 0).sum::<i32>())
+                    .sum();
 
-            if board.contains(num) {
-                board.mark(num);
-                if board.check() {
-                    board.done = true;
-                    println!("{} * {}", &num, board.sum_positive());
-                    result = num * board.sum_positive();
+                if part1 {
+                    return num * sum;
+                } else {
+                    result = num * sum;
                 }
+
+                board.clear();
             }
         }
     }
 
     result
+}
+
+pub fn part1() -> i32 {
+    emulate_bingo(true)
+}
+
+pub fn part2() -> i32 {
+    emulate_bingo(false)
 }
