@@ -6,15 +6,8 @@ fn get_intersections(diagonal: bool) -> usize {
     let mut field: Vec<Vec<i32>> = vec![vec![0; 1000]; 1000];
 
     for l in INPUT.lines() {
-        let (p1, p2) = l.split_once(" -> ").unwrap();
-        let (x1, y1) = p1.split_once(",").unwrap();
-        let (x2, y2) = p2.split_once(",").unwrap();
-
-        let m1: i32 = x1.parse().unwrap();
-        let m2: i32 = x2.parse().unwrap();
-
-        let n1: i32 = y1.parse().unwrap();
-        let n2: i32 = y2.parse().unwrap();
+        let pairs: Vec<i32> = l.split(|c: char| !c.is_numeric()).filter_map(|c| c.parse::<i32>().ok()).collect();       
+        let (x1, y1, x2, y2) = (pairs[0], pairs[1], pairs[2], pairs[3]);
 
         if !diagonal {
             if !(x1 == x2 || y1 == y2) {
@@ -22,14 +15,14 @@ fn get_intersections(diagonal: bool) -> usize {
             }
         }
 
-        let dx: i32 = m1 - m2;
-        let dy: i32 = n1 - n2;
+        let dx: i32 = x1 - x2;
+        let dy: i32 = y1 - y2;
 
-        let signum_x = (m2 - m1).signum();
-        let signum_y = (n2 - n1).signum();
+        let signum_x = (x2 - x1).signum();
+        let signum_y = (y2 - y1).signum();
 
         for i in 0..=max(dx.abs(), dy.abs()) {
-            field[(n1 + i * signum_y) as usize][(m1 + i * signum_x) as usize] += 1;
+            field[(y1 + i * signum_y) as usize][(x1 + i * signum_x) as usize] += 1;
         }
     }
 
