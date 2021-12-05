@@ -25,8 +25,8 @@ fn get_intersections(diagonal: bool) -> usize {
         let dx: i32 = m1 - m2;
         let dy: i32 = n1 - n2;
 
-        let signum_x = (m1 - m2).signum() * -1;
-        let signum_y = (n1 - n2).signum() * -1;
+        let signum_x = (m2 - m1).signum();
+        let signum_y = (n2 - n1).signum();
 
         for i in 0..=max(dx.abs(), dy.abs()) {
             field[(n1 + i * signum_y) as usize][(m1 + i * signum_x) as usize] += 1;
