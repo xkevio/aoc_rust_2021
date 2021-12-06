@@ -8,29 +8,9 @@ fn lantern_fish_growth(days: usize) -> usize {
         length[*x] += 1;
     }
 
-    // println!("initial state: {:?}", &length);
-
     for _ in 0..days {
-        let mut copy = length.clone();
-
-        for i in 0..length.len() {
-            if length[i] > 0 {
-                match i {
-                    0 => {
-                        copy[i] -= length[i];
-                        copy[6] += length[i];
-                        copy[8] += length[i]; 
-                    },
-                    _ => {
-                        copy[i] -= length[i];
-                        copy[i-1] += length[i]; 
-                    },
-                }
-            }
-        }
-
-        length = copy.clone();
-        // println!("Day {}: {:?}", d+1, &length);
+        length.rotate_left(1);
+        length[6] += length[8];
     }
 
     length.iter().sum()
