@@ -17,21 +17,15 @@ fn lantern_fish_growth(days: usize) -> usize {
             if length[i] > 0 {
                 match i {
                     0 => {
-                        for _ in 0..length[i] {
-                            copy[i] -= 1;
-                            copy[6] += 1;
-                            copy[8] += 1; 
-                        }
+                        copy[i] -= length[i];
+                        copy[6] += length[i];
+                        copy[8] += length[i]; 
                     },
                     _ => {
-                        for _ in 0..length[i] {
-                            copy[i] -= 1;
-                            copy[i-1] += 1; 
-                        }
-                        
+                        copy[i] -= length[i];
+                        copy[i-1] += length[i]; 
                     },
                 }
-
             }
         }
 
