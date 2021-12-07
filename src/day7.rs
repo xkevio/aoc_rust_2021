@@ -15,7 +15,7 @@ const INPUT: &str = include_str!("inputs/day7.txt");
 // }
 
 pub fn part1() -> usize {
-    let mut coordinates: Vec<i32> = INPUT.split(",").map(|f| f.parse().unwrap()).collect();
+    let mut coordinates: Vec<i64> = INPUT.split(",").map(|f| f.parse().unwrap()).collect();
     coordinates.sort();
 
     let pos = statistical::median(&coordinates);
@@ -24,7 +24,7 @@ pub fn part1() -> usize {
 
 pub fn part2() -> usize {
     let coordinates: Vec<f64> = INPUT.split(",").map(|f| f.parse().unwrap()).collect();
-    let pos = f64::floor(statistical::mean(&coordinates));
+    let pos = f64::floor(statistical::mean(&coordinates)); // for other inputs, ceil()
 
     coordinates.iter().map(|f| (f - pos).abs() as usize).map(|f| ((f * (f + 1)) / 2)).sum()
 }
