@@ -26,7 +26,7 @@ pub fn part1() -> usize {
 
 pub fn part2() -> usize {
     let coordinates: Vec<usize> = INPUT.split(",").map(|f| f.parse().unwrap()).collect();
-    let pos = f32::ceil(((coordinates.iter().sum::<usize>() / coordinates.len())) as f32) as usize;
+    let pos = f32::ceil((coordinates.iter().sum::<usize>() / coordinates.len()) as f32) as usize;
 
     coordinates.iter().map(|f| max(*f, pos) - min(*f, pos)).map(|f| (f * (f + 1)) / 2).sum()
 }
