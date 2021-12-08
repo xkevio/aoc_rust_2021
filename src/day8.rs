@@ -30,16 +30,10 @@ pub fn part2() -> usize {
             match input.len() {
                 2 => {
                     patterns.insert('1', input);
-                }
-                3 => {
-                    patterns.insert('7', input);
-                }
+                },
                 4 => {
                     patterns.insert('4', input);
-                }
-                7 => {
-                    patterns.insert('8', input);
-                }
+                },
                 _ => {},
             }
         }
