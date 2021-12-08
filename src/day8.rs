@@ -3,20 +3,21 @@ use std::collections::HashMap;
 const INPUT: &str = include_str!("inputs/day8.txt");
 
 pub fn part1() -> usize {
-    let mut counter: usize = 0;
-
-    for line in INPUT.lines() {
-        let (_, outputs) = line.split_once(" | ").unwrap();
-        for output in outputs.split_whitespace() {
-            if output.len() == 2 || output.len() == 4 || output.len() == 3 || output.len() == 7 {
-                counter += 1;
-            }
-        }
-    }
-
-    counter
+    INPUT
+        .lines()
+        .map(|line| {
+            line.split_once(" | ")
+                .unwrap()
+                .1
+                .split_whitespace()
+                .map(|f| f.len())
+                .filter(|f| *f < 5 || *f == 7)
+                .count()
+        })
+        .sum::<usize>()
 }
 
+#[rustfmt::skip]
 pub fn part2() -> usize {
     let mut patterns = HashMap::<char, &str>::new();
     let mut num_sum: usize = 0;
