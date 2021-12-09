@@ -5,7 +5,7 @@ fn parse_points() -> Vec<Vec<u32>> {
         .lines()
         .map(|l| {
             l.chars()
-                .map(|c| c.to_digit(10).unwrap())
+                .flat_map(|c| c.to_digit(10))
                 .collect::<Vec<u32>>()
         })
         .collect()
