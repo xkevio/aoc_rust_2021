@@ -44,18 +44,18 @@ pub fn part2() -> usize {
                 3 => sum.push('7'),
                 4 => sum.push('4'),
                 5 => {
-                    if patterns.get(&'1').unwrap().chars().all(|c| output.contains(c)) {
+                    if patterns[&'1'].chars().all(|c| output.contains(c)) {
                         sum.push('3');
-                    } else if patterns.get(&'4').unwrap().chars().filter(|c| output.contains(*c)).count() == 3 {
+                    } else if patterns[&'4'].chars().filter(|c| output.contains(*c)).count() == 3 {
                         sum.push('5');
                     } else {
                         sum.push('2');
                     }
                 },
                 6 => {
-                    if patterns.get(&'4').unwrap().chars().all(|c| output.contains(c)) {
+                    if patterns[&'4'].chars().all(|c| output.contains(c)) {
                         sum.push('9');
-                    } else if patterns.get(&'1').unwrap().chars().all(|c| output.contains(c)) {
+                    } else if patterns[&'1'].chars().all(|c| output.contains(c)) {
                         sum.push('0');
                     } else {
                         sum.push('6');
