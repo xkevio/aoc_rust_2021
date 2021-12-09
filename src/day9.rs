@@ -5,9 +5,8 @@ fn parse_points() -> Vec<Vec<u32>> {
         .lines()
         .map(|l| {
             l.chars()
-                .flat_map(|c| c.to_digit(10))
-                .collect::<Vec<u32>>()
-        })
+            .flat_map(|c| c.to_digit(10))
+            .collect::<Vec<u32>>()})
         .collect()
 }
 
@@ -54,28 +53,10 @@ fn flood_fill(i: usize, j: usize, heightmap: &[Vec<u32>], marked: &mut Vec<(usiz
 
 pub fn part1() -> u32 {
     let heightmap = parse_points();
-    let mut sum: u32 = 0;
-
-    for i in 0..heightmap.len() {
-        for j in 0..heightmap[0].len() {
-            if i > 0 && heightmap[i][j] >= heightmap[i - 1][j] {
-                continue;
-            }
-            if i < heightmap.len() - 1 && heightmap[i][j] >= heightmap[i + 1][j] {
-                continue;
-            }
-            if j > 0 && heightmap[i][j] >= heightmap[i][j - 1] {
-                continue;
-            }
-            if j < heightmap[0].len() - 1 && heightmap[i][j] >= heightmap[i][j + 1] {
-                continue;
-            }
-
-            sum += heightmap[i][j] + 1;
-        }
-    }
-
-    sum
+    get_low_points(&heightmap)
+        .iter()
+        .map(|c| heightmap[c.0][c.1] + 1)
+        .sum()
 }
 
 pub fn part2() -> usize {
