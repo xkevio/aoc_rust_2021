@@ -1,5 +1,6 @@
 const INPUT: &str = include_str!("../inputs/day11.txt");
 
+#[rustfmt::skip]
 fn parse_input() -> Vec<Vec<u32>> {
     INPUT
         .lines()
@@ -14,32 +15,17 @@ fn parse_input() -> Vec<Vec<u32>> {
 fn get_neighbors(energy_levels: &[Vec<u32>], i: usize, j: usize) -> Vec<(usize, usize)> {
     let mut neighbors: Vec<(usize, usize)> = Vec::new();
 
-    // cardinal
-    if i > 0 {
-        neighbors.push((i - 1, j));
-    }
-    if i < energy_levels.len() - 1 {
-        neighbors.push((i + 1, j));
-    }
-    if j > 0 {
-        neighbors.push((i, j - 1));
-    }
-    if j < energy_levels[0].len() - 1 {
-        neighbors.push((i, j + 1));
-    }
-
-    // diagonal
-    if i > 0 && j > 0 {
-        neighbors.push((i - 1, j - 1));
-    }
-    if i < energy_levels.len() - 1 && j < energy_levels[0].len() - 1 {
-        neighbors.push((i + 1, j + 1));
-    }
-    if i < energy_levels.len() - 1 && j > 0 {
-        neighbors.push((i + 1, j - 1));
-    }
-    if i > 0 && j < energy_levels[0].len() - 1 {
-        neighbors.push((i - 1, j + 1));
+    let dpos: Vec<(i32, i32)> = (-1..=1)
+        .map(|dx| (-1..=1).map(|dy| (dx, dy)).collect::<Vec<_>>())
+        .flatten()
+        .filter(|(dx, dy)| *dx != 0 || *dy != 0)
+        .collect();
+        
+    for (dx, dy) in dpos {
+        let (x, y) = (dx + i as i32, dy + j as i32);
+        if x >= 0 && x < energy_levels.len() as i32 && y >= 0 && y < energy_levels[0].len() as i32 {
+            neighbors.push((x as usize, y as usize));
+        }
     }
 
     neighbors
