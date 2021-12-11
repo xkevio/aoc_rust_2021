@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-const INPUT: &str = include_str!("inputs/day10.txt");
+const INPUT: &str = include_str!("../inputs/day10.txt");
 
 fn get_pairs() -> HashMap<char, char> {
     HashMap::from([('(', ')'), ('{', '}'), ('[', ']'), ('<', '>')])
@@ -11,12 +11,10 @@ fn is_corrupted(line: &str, pairs: &HashMap<char, char>) -> Option<char> {
     for ch in line.chars() {
         if pairs.contains_key(&ch) {
             stack.push(ch);
+        } else if ch == pairs[stack.last().unwrap()] {
+            stack.pop();
         } else {
-            if ch == pairs[stack.last().unwrap()] {
-                stack.pop();
-            } else {
-                return Some(ch);
-            }
+            return Some(ch);
         }
     }
     None
@@ -49,10 +47,8 @@ pub fn part2() -> usize {
         for ch in line.chars() {
             if pairs.contains_key(&ch) {
                 stack.push(pairs[&ch]);
-            } else {
-                if ch == *stack.last().unwrap() {
-                    stack.pop();
-                }
+            } else if ch == *stack.last().unwrap() {
+                stack.pop();
             }
         }
 
@@ -71,6 +67,6 @@ pub fn part2() -> usize {
         scores.push(score);
     }
 
-    scores.sort();
+    scores.sort_unstable();
     scores[scores.len() / 2]
 }

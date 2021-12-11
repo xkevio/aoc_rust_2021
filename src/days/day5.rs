@@ -1,18 +1,19 @@
 use std::cmp::max;
 
-const INPUT: &str = include_str!("inputs/day5.txt");
+const INPUT: &str = include_str!("../inputs/day5.txt");
 
 fn get_intersections(diagonal: bool) -> usize {
     let mut field: Vec<Vec<i32>> = vec![vec![0; 1000]; 1000];
 
     for l in INPUT.lines() {
-        let pairs: Vec<i32> = l.split(|c: char| !c.is_numeric()).filter_map(|c| c.parse::<i32>().ok()).collect();       
+        let pairs: Vec<i32> = l
+            .split(|c: char| !c.is_numeric())
+            .filter_map(|c| c.parse::<i32>().ok())
+            .collect();
         let (x1, y1, x2, y2) = (pairs[0], pairs[1], pairs[2], pairs[3]);
 
-        if !diagonal {
-            if !(x1 == x2 || y1 == y2) {
-                continue;
-            }
+        if !(diagonal || x1 == x2 || y1 == y2) {
+            continue;
         }
 
         let dx: i32 = x1 - x2;
@@ -26,7 +27,10 @@ fn get_intersections(diagonal: bool) -> usize {
         }
     }
 
-    field.iter().map(|r| r.iter().filter(|n| **n >= 2).count()).sum()
+    field
+        .iter()
+        .map(|r| r.iter().filter(|n| **n >= 2).count())
+        .sum()
 }
 
 pub fn part1() -> usize {

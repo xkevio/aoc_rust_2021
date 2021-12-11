@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-const INPUT: &str = include_str!("inputs/day8.txt");
+const INPUT: &str = include_str!("../inputs/day8.txt");
 
 pub fn part1() -> usize {
     INPUT
@@ -66,7 +66,7 @@ pub fn part2() -> usize {
             }
         }
         println!("{}", &sum);
-        num_sum += usize::from_str_radix(sum.as_str(), 10).unwrap();
+        num_sum += sum.as_str().parse::<usize>().unwrap();
     }
 
     num_sum

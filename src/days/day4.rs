@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("inputs/day4.txt");
+const INPUT: &str = include_str!("../inputs/day4.txt");
 
 type Board = Vec<Vec<i32>>;
 
@@ -45,7 +45,7 @@ fn emulate_bingo(part1: bool) -> i32 {
 
     let mut result = 0;
 
-    for ins in instructions.split(",") {
+    for ins in instructions.split(',') {
         let num: i32 = ins.parse().unwrap();
 
         for board in &mut boards {

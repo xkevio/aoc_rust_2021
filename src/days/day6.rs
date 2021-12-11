@@ -1,7 +1,7 @@
-const INPUT: &str = include_str!("inputs/day6.txt");
+const INPUT: &str = include_str!("../inputs/day6.txt");
 
 fn lantern_fish_growth(days: usize) -> usize {
-    let lantern_fish: Vec<usize> = INPUT.split(",").map(|a| a.parse().unwrap()).collect();
+    let lantern_fish: Vec<usize> = INPUT.split(',').flat_map(|a| a.parse()).collect();
     let mut length = [0; 9];
 
     for x in &lantern_fish {

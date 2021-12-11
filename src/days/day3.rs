@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("inputs/day3.txt");
+const INPUT: &str = include_str!("../inputs/day3.txt");
 
 pub fn part1() -> u32 {
     let mut gamma_rate = 0;
