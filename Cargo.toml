@@ -7,3 +7,4 @@ edition = "2018"
 
 [dependencies]
 statistical = "1.0.0"
+colored = "2"
