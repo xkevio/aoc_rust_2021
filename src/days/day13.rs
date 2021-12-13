@@ -43,22 +43,22 @@ fn fold(pos: usize, axis: char, matrix: &Matrix) -> Matrix {
     if axis == 'x' {
         for i in 0..matrix.len() {
             let mut v: Vec<i32> = Vec::new();
-            for j in pos + 1..matrix[0].len() {
+            for j in 0..pos {
                 v.push(matrix[i][j]);
             }
 
-            folder[i].drain(pos..);
+            folder[i].drain(0..=pos);
             folded_matrix.push(v);
         }
 
-        for i in 0..folder.len() {
-            for j in 0..folder[0].len() {
-                folder[i][j] += folded_matrix[i][folded_matrix[0].len() - 1 - j];
+        for i in 0..folded_matrix.len() {
+            for j in 0..folded_matrix[0].len() {
+                folded_matrix[i][j] += folder[i][folder[0].len() - 1 - j];
             }
         }
     }
 
-    if axis == 'y' { folded_matrix } else { folder }
+    folded_matrix
 }
 
 fn fold_n(fold_once: bool) -> usize {
