@@ -93,6 +93,5 @@ pub fn part2() -> usize {
         }
     }
 
-    let result = path(&(0, 0, 0), &(1, 499, 499), &bigger_tile);
-    result as usize
+    path(&(0, 0, 0), &(1, 499, 499), &bigger_tile) as usize
 }
