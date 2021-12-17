@@ -12,19 +12,6 @@ fn parse_input() -> Vec<Vec<u32>> {
         .collect()
 }
 
-fn get_neighbors(i: usize, j: usize, input: &[Vec<u32>]) -> Vec<Node> {
-    let mut neighbors: Vec<Node> = Vec::new();
-
-    // has to be run with --release because of panic! for underflow (could use wrapping_sub)
-    for (y, x) in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)] {
-        if let Some(v) = input.get(y).and_then(|f| f.get(x)) {
-            neighbors.push((*v, y, x));
-        }
-    }
-
-    neighbors
-}
-
 fn path(start: &Node, goal: &Node, array: &[Vec<u32>]) -> u32 {
     let mut dist: HashMap<(usize, usize), u32> = HashMap::new();
     let mut heap = MinMaxHeap::new();
@@ -37,22 +24,24 @@ fn path(start: &Node, goal: &Node, array: &[Vec<u32>]) -> u32 {
 
     heap.push(*start);
 
-    while let Some(u) = heap.pop_min() {
-        if goal.1 == u.1 && goal.2 == u.2 {
-            return u.0;
+    while let Some((cost, i, j)) = heap.pop_min() {
+        if goal.1 == i && goal.2 == j {
+            return cost;
         }
 
-        if u.0 > dist[&(u.1, u.2)] {
+        if cost > dist[&(i, j)] {
             continue;
         }
 
-        for v in &get_neighbors(u.1, u.2, array) {
-            let alt = u.0 + v.0;
-            let new = (alt, v.1, v.2);
+        for (x, y) in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)] {
+            if let Some(v) = array.get(y).and_then(|f| f.get(x)) {
+                let alt = cost + v;
+                let new = (alt, x, y);
 
-            if alt < dist[&(v.1, v.2)] {
-                dist.insert((v.1, v.2), alt);
-                heap.push(new);
+                if alt < dist[&(x, y)] {
+                    dist.insert((x, y), alt);
+                    heap.push(new);
+                }
             }
         }
     }
