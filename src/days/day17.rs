@@ -14,12 +14,7 @@ impl Probe {
         self.pos.0 += self.velocity.0;
         self.pos.1 += self.velocity.1;
 
-        if self.velocity.0 > 0 {
-            self.velocity.0 -= 1;
-        } else if self.velocity.0 < 0 {
-            self.velocity.0 += 1;
-        }
-
+        self.velocity.0 -= self.velocity.0.signum();
         self.velocity.1 -= 1;
     }
 
@@ -41,16 +36,12 @@ fn get_range() -> (Vec<i64>, Vec<i64>) {
 
 fn launch_probe() -> (usize, usize) {
     let (x_range, y_range) = get_range();
-
     let mut y_list: Vec<i64> = Vec::new();
-    let mut vel_list: Vec<(i64, i64)> = Vec::new();
 
     for vx in 0..200 {
         for vy in -200..200 {
             let mut probe = Probe::new(vx, vy);
             let mut local_list: Vec<i64> = Vec::new();
-
-            let init_vel = (vx, vy);
 
             loop {
                 probe.step();
@@ -68,15 +59,14 @@ fn launch_probe() -> (usize, usize) {
                 }
 
                 if x_range.contains(x) && y_range.contains(y) {
-                    y_list.append(&mut local_list);
-                    vel_list.push(init_vel);
+                    y_list.push(*local_list.iter().max().unwrap());
                     break;
                 }
             }
         }
     }
 
-    (*y_list.iter().max().unwrap() as usize, vel_list.len())
+    (*y_list.iter().max().unwrap() as usize, y_list.len())
 }
 
 pub fn part1() -> usize {
