@@ -1,12 +1,8 @@
-use colored::Colorize;
 use regex::{Regex, Captures};
 
 const INPUT: &str = include_str!("../inputs/day18.txt");
 
 fn magnitude_of_snail_fish_num(num: &str) -> usize {
-    println!("-----------------MAGNITUDE-----------------");
-    dbg!(num);
-
     let regex = Regex::new(r"\[(\d+),(\d+)]").unwrap();
     let mut result = num.clone().to_string();
 
@@ -32,9 +28,6 @@ fn magnitude_of_snail_fish_num(num: &str) -> usize {
 fn split_snail_fish_num(num: &str, n: &str) -> String {
     let mut split_num = num.clone().to_string();
 
-    // println!("{}", "---------------SPLIT---------------".red().bold());
-    // dbg!("SPLIT");
-
     let number_to_split: f32 = n.parse().unwrap();
     let left = (number_to_split / 2.0).floor() as i32;
     let right = (number_to_split / 2.0).ceil() as i32;
@@ -42,18 +35,11 @@ fn split_snail_fish_num(num: &str, n: &str) -> String {
     let new_pair = format!("[{},{}]", left, right);
 
     split_num = split_num.replacen(n, &new_pair, 1);
-
     split_num
 }
 
 fn explode_snail_fish_num(num: &str, pair: &str, start: usize, end: usize) -> String {
     let nums: Vec<usize> = pair.split(|c: char| !c.is_numeric()).flat_map(|f| f.parse()).collect();
-
-    // println!("{}", "---------------EXPLODE---------------".red().bold());
-    // dbg!("EXPLODE");
-
-    // dbg!(&nums);
-    // dbg!(pair);
 
     let (a, b) = (nums[0], nums[1]);
     let mut exploded_num = num.clone().to_string();
@@ -75,7 +61,6 @@ fn explode_snail_fish_num(num: &str, pair: &str, start: usize, end: usize) -> St
         }
     }
 
-    // dbg!(&left_num);
     let mut offset = 0;
 
     if !left_num.is_empty() {
@@ -91,8 +76,6 @@ fn explode_snail_fish_num(num: &str, pair: &str, start: usize, end: usize) -> St
 
     let mut range = 0;
 
-    // dbg!(offset);
-
     for i in right_index..exploded_num.len() {
         if let Some(c) = exploded_num.chars().nth(i) {
             if c.is_numeric() {
@@ -106,18 +89,13 @@ fn explode_snail_fish_num(num: &str, pair: &str, start: usize, end: usize) -> St
         }
     }
 
-    // dbg!(&right_num);
-
     if !right_num.is_empty() {
         let new_right_num: usize = b + right_num.parse::<usize>().unwrap();
         exploded_num.replace_range((range - right_num.len() + 1)..=range, &new_right_num.to_string());
     }
 
     // replace pair with "0"
-    // dbg!(&exploded_num);
     exploded_num.replace_range(start + offset..=(exploded_num[start + offset..].find(']').unwrap() + (start + offset)), "0");
-    // exploded_num = exploded_num.replacen(pair, "0", 1);
-
     // return
     exploded_num
 }
@@ -125,8 +103,6 @@ fn explode_snail_fish_num(num: &str, pair: &str, start: usize, end: usize) -> St
 fn reduce_snail_fish_num(num: &str) -> String {
     let mut pair_counter: usize = 0;
     let mut reduced_num = String::from(num);
-
-    // dbg!(&reduced_num);
 
     let mut explode = false;
 
@@ -141,17 +117,9 @@ fn reduce_snail_fish_num(num: &str) -> String {
         if pair_counter > 4 {
             // explode, give start and end
             if explode && c.is_numeric() {
-                // dbg!(i);
-
                 let sub_string = &reduced_num[i-1..=(reduced_num[i-1..].find(']').unwrap() + (i - 1))];
 
-                // dbg!(sub_string);
-
                 let exploded_result = explode_snail_fish_num(&reduced_num, sub_string, i-1, reduced_num[i-1..].find(']').unwrap() + (i - 1));
-
-                // dbg!(&exploded_result);
-
-                //wrong order
                 reduced_num = reduce_snail_fish_num(&exploded_result);
                 break;
             }
@@ -173,13 +141,8 @@ fn reduce_snail_fish_num(num: &str) -> String {
 }
 
 fn add_snail_fish_nums(a: &str, b: &str) -> String {
-    println!("ADDING: {} + {}", a.bold().green(), b.bold().green());
-
     let result = format!("[{},{}]", a, b);
     let reduced_result = reduce_snail_fish_num(&result);
-
-    dbg!(&result);
-    dbg!(&reduced_result);
 
     reduced_result
 }
@@ -191,9 +154,6 @@ pub fn part1() -> usize {
     for line in INPUT.lines().skip(1) {
         result = add_snail_fish_nums(&result, line);
     }
-
-    dbg!(&result);
-    dbg!(magnitude_of_snail_fish_num(&result));
 
     magnitude_of_snail_fish_num(&result)
 }
